@@ -1,0 +1,201 @@
+{% extends "index.html" %}
+
+<title>Girl-{% block title %}Popular Posts{% endblock %}</title>
+
+{% block content %}
+<div class="popular-posts-container" style="background-color: #ffd6e7; min-height: 100vh; padding: 30px 0; margin-top:-25px;">
+    <div class="container py-5">
+        <!-- Animated Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold" style="color: #ff1493;">
+                <span class="d-inline-block animate__animated animate__pulse animate__infinite" style="animation-duration: 2s;">🔥</span> 
+                VIP Lounge 
+                <span class="d-inline-block animate__animated animate__pulse animate__infinite" style="animation-duration: 2s; animation-delay: 0.5s;">🔥</span>
+            </h1>
+            <p class="lead" style="color: #c71585;">The posts everyone's obsessing over - you'll want to bookmark these!</p>
+            <div class="sparkle-divider" style="color: #ff1493;">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+        </div>
+
+        <!-- Flip Book Style Posts -->
+        <div class="row justify-content-center g-4">
+            {% for post in popular_posts %}
+            <div class="col-lg-4 col-md-6">
+                <div class="post-card flip-card">
+                    <div class="flip-card-inner">
+                        <!-- Front of Card -->
+                        <div class="flip-card-front" style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);">
+                            <div class="popular-badge animate__animated animate__bounceIn" style="background: linear-gradient(45deg, #ff69b4, #ff1493);">
+                                <i class="fas fa-crown"></i> TRENDING
+                            </div>
+                            <div class="post-content" style="padding: 20px;">
+                                <h3 class="post-title" style="color: white;">{{ post.title }}</h3>
+                                <div class="reaction-counts" style="margin-top: 20px;">
+                                    <span class="likes-count" style="color: white;">
+                                        <i class="fas fa-heart animate__animated animate__heartBeat" style="animation-duration: 1.5s;"></i> 
+                                        {{ post.likes.count }} loves
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Back of Card -->
+                        <div class="flip-card-back" style="background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 100%); padding: 20px;">
+                            <div class="post-excerpt" style="color: white;">
+                                <p>{{ post.body|truncatechars:150 }}</p>
+                            </div>
+                            <div class="post-meta" style="color: white;">
+                                <div class="comments-count">
+                                    <i class="fas fa-comment-dots"></i> {{ post.reviews.count }} comments
+                                </div>
+                                <div class="post-date">
+                                    <i class="far fa-calendar-alt"></i> {{ post.created|date:"M d, Y" }}
+                                </div>
+                            </div>
+                            <a href="{% url 'blog:details' post.id %}" class="read-more-btn" style="background: white; color: #ff1493;">
+                                Read Full Tea <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="empty-state-card text-center p-5" style="background: rgba(255, 255, 255, 0.8); border-radius: 15px;">
+                    <div class="empty-icon" style="color: #ff1493;">
+                        <i class="fas fa-comment-slash fa-3x"></i>
+                    </div>
+                    <h3 style="color: #ff1493;">No VIP Posts Yet!</h3>
+                    <p style="color: #c71585;">Create something amazing to get featured here. Posts with 10+ likes join the VIP lounge!</p>
+                    <a href="{% url 'blog:create-post' %}" class="btn btn-glow" style="background: linear-gradient(45deg, #ff69b4, #ff1493); color: white; width:170px;margin-left:500px;">
+                        Start Your Trend
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center mt-5">
+            <a href="{% url 'blog:home' %}" class="back-home-btn" style="color: #ff1493; border-color: #ff1493;">
+                <i class="fas fa-arrow-left"></i> Back to Main Feed
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .post-card {
+        perspective: 1000px;
+        height: 300px;
+        margin-bottom: 30px;
+    }
+    
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+        border-radius: 15px;
+    }
+    
+    .post-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+    
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .flip-card-back {
+        transform: rotateY(180deg);
+    }
+    
+    .popular-badge {
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.8rem;
+        box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+        z-index: 10;
+    }
+    
+    .post-title {
+        font-weight: 700;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+    
+    .post-excerpt {
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+    
+    .post-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+    
+    .read-more-btn {
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 30px;
+        text-align: center;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    
+    .read-more-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        text-decoration: none;
+    }
+    
+    .btn-glow {
+        border: none;
+        padding: 10px 25px;
+        border-radius: 30px;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+        transition: all 0.3s;
+    }
+    
+    .btn-glow:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 20, 147, 0.6);
+        color: white;
+    }
+    
+    .back-home-btn {
+        font-weight: 600;
+        padding: 10px 25px;
+        border: 2px solid;
+        border-radius: 30px;
+        transition: all 0.3s;
+    }
+    
+    .back-home-btn:hover {
+        background: #ff1493;
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+<!-- Animation Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% endblock %}

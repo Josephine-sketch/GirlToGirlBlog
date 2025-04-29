@@ -1,0 +1,291 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    /* Same styles as create.html */
+    .login-container {
+        background: linear-gradient(135deg, #fff0f6 0%, #ffd6e7 50%, #ffc0cb 100%);
+        min-height: calc(100vh - 56px);
+        display: flex;
+        margin-top:-15px;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+    
+    .login-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.2);
+        width: 100%;
+        max-width: 700px;
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .login-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(90deg, #ff6b9d, #ffb6c1);
+    }
+    
+    .login-title {
+        font-family: 'Playfair Display', serif;
+        color: #d23c77;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 2.2rem;
+    }
+    
+    .form-field {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #eee;
+        border-radius: 10px;
+        transition: all 0.3s;
+        font-size: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: #ff6b9d;
+        box-shadow: 0 0 0 0.25rem rgba(255, 107, 157, 0.25);
+    }
+    
+    textarea.form-control {
+        min-height: 200px;
+        resize: vertical;
+    }
+    
+    .btn-post {
+        background-color: #ff6b9d;
+        border: none;
+        color: white;
+        padding: 12px;
+        width: 100%;
+        font-size: 1.1rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s;
+        margin-top: 1rem;
+    }
+    
+    .btn-post:hover {
+        background-color: #ff4785;
+        transform: translateY(-3px);
+        box-shadow: 0 7px 15px rgba(255, 107, 157, 0.4);
+    }
+    
+    .image-preview {
+        max-width: 100%;
+        max-height: 300px;
+        margin-top: 15px;
+        border-radius: 10px;
+    }
+    
+    .heart {
+        position: absolute;
+        opacity: 0.1;
+        z-index: 0;
+    }
+    
+    .heart-1 {
+        top: -30px;
+        right: -30px;
+        font-size: 120px;
+        color: #ff6b9d;
+    }
+    
+    .heart-2 {
+        bottom: -40px;
+        left: -40px;
+        font-size: 150px;
+        color: #ffb6c1;
+        transform: rotate(30deg);
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <i class="fas fa-heart heart heart-1"></i>
+        <i class="fas fa-heart heart heart-2"></i>
+        
+        <h1 class="login-title">Edit Your Post 👑</h1>
+        
+        <form method="POST" autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-field">
+                <label for="{{ form.title.id_for_label }}" class="form-label">
+                    <i class="fas fa-heading me-2"></i>Title
+                </label>
+                {{ form.title }}
+            </div>
+            
+            <div class="form-field">
+                <label for="{{ form.body.id_for_label }}" class="form-label">
+                    <i class="fas fa-align-left me-2"></i>Content
+                </label>
+                {{ form.body }}
+            </div>
+            
+            <div class="form-field">
+                <label for="{{ form.image.id_for_label }}" class="form-label">
+                    <i class="fas fa-image me-2"></i>Featured Image
+                </label>
+                {{ form.image }}
+                {% if form.instance.image %}
+                    <img src="{{ form.instance.image.url }}" class="image-preview" id="imagePreview">
+                {% else %}
+                    <img src="" class="image-preview" id="imagePreview" style="display:none;">
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn-post">
+                Update Post <i class="fas fa-save ms-2"></i>
+            </button>
+            
+            <div class="text-center mt-3">
+                <a href="{% url 'blog:home' %}" class="text-muted">
+                    <i class="fas fa-arrow-left me-1"></i> Back to posts
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Image preview for existing posts
+    document.getElementById('id_image').addEventListener('change', function(event) {
+        const preview = document.getElementById('imagePreview');
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+{% endblock %}
+{% comment %} {% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container-fluid p-0 " style="background-color: #ffccdd; min-height: 10vh; margin-top:-25px;">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg p-4 mb-5 bg-white rounded" style="margin-top:25px;">
+                <div class="card-body" >
+                    <h2 class="card-title text-center mb-4" style="color: #ff66b2;">Hey, Queen! 👑</h2>
+                    <h4 class="text-center mb-4" style="color: #666;">Update your post and keep the convo fresh!</h4>
+                    
+                    <hr style="border-top: 1px solid #ffccdd;">
+                    
+                    <form method="POST" autocomplete="off" class="mt-4" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      
+                      <!-- Ensure ALL your form fields are included -->
+                      {{ form }}
+                      
+                        <div class="d-flex justify-content-between mt-5">
+                            <a href="{% url 'blog:home' %}" class="btn btn-outline-secondary">
+                                <i class="fa fa-arrow-left mr-2"></i> Cancel
+                            </a>
+                            
+                            <button type="submit" class="btn btn-primary" style="background-color: #ff66b2; border-color: #ff66b2;">
+                                <i class="fa fa-check mr-2"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus {
+        border-color: #ff99cc;
+        box-shadow: 0 0 0 0.2rem rgba(255, 102, 178, 0.25);
+    }
+    
+    .card {
+        border: none;
+        border-radius: 15px;
+    }
+    
+    .btn-outline-secondary:hover {
+        background-color: #f8f9fa;
+        color: #ff66b2;
+        border-color: #ff66b2;
+    }
+    
+    .card-title {
+        font-weight: 600;
+    }
+    
+    textarea.form-control {
+        min-height: 200px;
+        resize: vertical;
+    }
+</style>
+
+{% endblock %} {% endcomment %}
+{% comment %} {% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<body>
+
+    <div class="container bg-light shadow-md p-5 form-layout">
+
+     <h3>Update Your Post</h3>
+     <h5>You want to edit your post, add some, remove some lol. Go right ahead! </h5>
+
+      <hr>
+      <br>
+     <form method='POST' autocomplete='on'>
+
+        {% csrf_token %}
+        {{form}}
+
+        <br>
+
+         <button type="submit" class="btn btn-primary">Save &nbsp;<i class="fa fa-check" aria-hidden="true"></i>
+         </button>
+         
+         &nbsp;
+
+         <a href="{%url 'blog:home'%}" class="btn btn-secondary">Cancel &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i>
+         </a>
+
+
+     </form>
+
+     <br>
+    </div>
+
+  </body>
+
+
+
+
+
+{%endblock %} {% endcomment %}

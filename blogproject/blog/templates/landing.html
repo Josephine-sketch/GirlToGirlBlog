@@ -1,0 +1,197 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<style>
+    .landing-hero {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        min-height: 100vh;
+        margin-top:-25px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .landing-content {
+        z-index: 2;
+        position: relative;
+    }
+    
+    .floating-hearts {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .heart {
+        position: absolute;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff80'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") no-repeat center center;
+        background-size: contain;
+        animation: float 15s linear infinite;
+        opacity: 0.6;
+    }
+    
+    @keyframes float {
+        0% {
+            transform: translateY(100vh) scale(0);
+            opacity: 0;
+        }
+        10% {
+            opacity: 0.6;
+        }
+        100% {
+            transform: translateY(-20vh) scale(1.5);
+            opacity: 0;
+        }
+    }
+    
+    .btn-girly {
+        background-color: #ff6b9d;
+        border-color: #ff6b9d;
+        color: white;
+        transition: all 0.3s;
+        border-radius: 50px;
+        padding: 12px 30px;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+    }
+    
+    .btn-girly:hover {
+        background-color: #ff4785;
+        border-color: #ff4785;
+        transform: translateY(-3px);
+        box-shadow: 0 7px 20px rgba(255, 107, 157, 0.6);
+        color: white;
+    }
+    
+    .welcome-text {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #555;
+    }
+    
+    .title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        color: #d23c77;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .subtitle {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+        color: #666;
+    }
+</style>
+
+<div class="landing-hero">
+    <!-- Floating hearts background -->
+    <div class="floating-hearts" id="hearts-container"></div>
+    
+    <div class="container landing-content">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="title display-4 mb-4">👑 Girl-To-Girl Blog 👑</h1>
+                
+                <div class="welcome-text bg-white p-4 rounded shadow-sm mb-5">
+                    <p class="lead mb-4">Hey gorgeous! 💖 Welcome to your digital sisterhood where real talk meets real support.</p>
+                    
+                    <p>This is your safe space to share, vent, celebrate, and connect with your virtual besties. Whether it's life hacks, relationship advice, or just girl talk - we've got your back, queen!</p>
+                </div>
+                
+                <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
+                    <a href="{% url 'blog:login' %}" class="btn btn-girly">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login to Your Account
+                    </a>
+                    
+                    <a href="{% url 'blog:register' %}" class="btn btn-outline-pink">
+                        <i class="fas fa-user-plus me-2"></i> Join the Sisterhood
+                    </a>
+                </div>
+                
+                <div class="mt-4">
+                    <p class="text-muted">Already feeling the girl power? 👯‍♀️ Dive in, darling!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Create floating hearts
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('hearts-container');
+        const heartCount = 15;
+        
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('span');
+            heart.classList.add('heart');
+            
+            // Random positioning
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            
+            // Random size
+            const size = Math.random() * 20 + 10;
+            heart.style.width = size + 'px';
+            heart.style.height = size + 'px';
+            
+            // Random animation duration
+            heart.style.animationDuration = 5 + Math.random() * 20 + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            
+            container.appendChild(heart);
+        }
+    });
+</script>
+
+{% endblock %}
+{% comment %} {% extends "index.html" %}
+
+{%block content %}
+ 
+  <body>
+
+    <br>
+    <br>
+    <div class="text-center">
+
+        <h3>Girl-To-Girl Blog</h3>
+
+        <br>
+
+        <h5>Hey, Girlie welcome to the Girl-To-Girl Blog where us ladies actually have the space our mind. Take it as a space to speak to your virtual besties!</h5>
+
+        <hr>
+
+        <br>
+
+        <p>Login and jump back into reading or writing your blogs, or if you new here you can register and meet your virtual besties. we so excited to meet you !
+        </p>
+
+        <br>
+
+        <a class="btn btn-success" type="button" href="{%url 'blog:login'%}">Login to your account here &nbsp; <i class="fa fa-user-plus" aria-hidden="true"></i>
+        </a>
+        
+
+        <br>
+
+
+        <h6>Don't have an account yet? Register down here</h6>
+        <a class="btn btn-success" type="button" href="{%url 'blog:register'%}">Create your account &nbsp; <i class="fa fa-user-plus" aria-hidden="true"></i>
+        </a>
+
+
+  </body>
+
+
+{%endblock%} {% endcomment %}

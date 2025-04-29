@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+
+<title>Girl-{% block title %}Contact Us{% endblock %}</title>
+
+{%block content%}
+<div class="container">
+<h3>
+    Hey Girlie!
+</h3>
+
+<h5>
+    You're a gem! ✨  Share your love for our authors here. 
+    We're thrilled to hear from you!  
+    Drop your details below and let's chat
+</h5>
+
+<form method="POST" action="{% url 'blog:contact-submit' %}">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Send through your thoughts</legend>
+        
+        <div>
+            <label for="first_name" class="form-label mt-4"></label>
+            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your first name" required>
+        </div>
+        
+        <div>
+            <label for="last_name" class="form-label mt-4"></label>
+            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter last name" required>
+        </div>
+        
+        <div>
+            <label for="thoughts" class="form-label mt-4"></label>
+            <textarea class="form-control" id="thoughts" name="thoughts" rows="3" placeholder="Your thoughts" required></textarea>
+        </div>
+        
+        <div>
+            <label for="email" class="form-label mt-4"></label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else. Thanks for reaching out queen!</small>
+        </div>
+        
+        <div class="mt-4 text-end">  
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </fieldset>
+</form>
+</div>
+{%endblock%}

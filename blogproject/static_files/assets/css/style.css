@@ -1,0 +1,80 @@
+.container{
+    text-align: center;
+    padding: 20px;
+
+    
+}
+.post-list{
+    text-align: center;
+    padding: 20px;
+    
+}
+.btn{
+    display: flex;
+}
+
+.login-container {
+    max-width: 600px;
+    margin: 50px auto;
+    border-radius: 10px;
+    background: #f8f9fa;
+}
+.login-title {
+    font-family:Script MT Bold;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+}
+.login-form {
+    margin: 0 auto;
+    width: 80%;
+}
+.form-field {
+    margin-bottom: 15px;
+}
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.btn-outline-pink {
+    border: 2px solid #ff6b9d;
+    color: #ff6b9d;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-outline-pink:hover {
+    background-color: #ff6b9d;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(255, 107, 157, 0.3);
+}
+
+.nav-item{
+    color:black;
+}
+
+.btn-outline-pink {
+    border: 2px solid #ff6b9d;
+    color: #ff6b9d;
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-outline-pink:hover {
+    background-color: #ff6b9d;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(255, 107, 157, 0.3);
+}
+
+.badge.bg-pink {
+    background-color: #ff6b9d;
+    color: white;
+}

@@ -1,0 +1,175 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .login-container {
+        background: linear-gradient(135deg, #fff0f6 0%, #ffd6e7 50%, #ffc0cb 100%);
+        min-height: calc(100vh - 56px);
+        display: flex;
+        margin-top:-15px;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+    
+    .login-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.2);
+        width: 100%;
+        max-width: 500px;
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .login-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(90deg, #ff6b9d, #ffb6c1);
+    }
+    
+    .login-title {
+        font-family: 'Playfair Display', serif;
+        color: #d23c77;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 2.2rem;
+    }
+    
+    .form-field {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #555;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #eee;
+        border-radius: 10px;
+        transition: all 0.3s;
+        font-size: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: #ff6b9d;
+        box-shadow: 0 0 0 0.25rem rgba(255, 107, 157, 0.25);
+    }
+    
+    .btn-login {
+        background-color: #ff6b9d;
+        border: none;
+        color: white;
+        padding: 12px;
+        width: 100%;
+        font-size: 1.1rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s;
+        margin-top: 1rem;
+    }
+    
+    .btn-login:hover {
+        background-color: #ff4785;
+        transform: translateY(-3px);
+        box-shadow: 0 7px 15px rgba(255, 107, 157, 0.4);
+    }
+    
+    .register-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+    }
+    
+    .register-link a {
+        color: #ff6b9d;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+    
+    .register-link a:hover {
+        color: #d23c77;
+        text-decoration: underline;
+    }
+    
+    /* Floating hearts decoration */
+    .heart {
+        position: absolute;
+        opacity: 0.1;
+        z-index: 0;
+    }
+    
+    .heart-1 {
+        top: -30px;
+        right: -30px;
+        font-size: 120px;
+        color: #ff6b9d;
+    }
+    
+    .heart-2 {
+        bottom: -40px;
+        left: -40px;
+        font-size: 150px;
+        color: #ffb6c1;
+        transform: rotate(30deg);
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <!-- Decorative hearts -->
+        <i class="fas fa-heart heart heart-1"></i>
+        <i class="fas fa-heart heart heart-2"></i>
+        
+        <h1 class="login-title">Welcome Back, Queen! 👑</h1>
+        
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            
+            <div class="form-field">
+                <label for="{{ form.username.id_for_label }}" class="form-label">
+                    <i class="fas fa-user me-2"></i>Username
+                </label>
+                <input type="text" 
+                       name="{{ form.username.name }}" 
+                       id="{{ form.username.id_for_label }}" 
+                       class="form-control" 
+                       placeholder="Your username">
+            </div>
+            
+            <div class="form-field">
+                <label for="{{ form.password.id_for_label }}" class="form-label">
+                    <i class="fas fa-lock me-2"></i>Password
+                </label>
+                <input type="password" 
+                       name="{{ form.password.name }}" 
+                       id="{{ form.password.id_for_label }}" 
+                       class="form-control" 
+                       placeholder="Your password">
+            </div>
+            
+            <button type="submit" class="btn-login">
+                Login <i class="fas fa-arrow-right ms-2"></i>
+            </button>
+        </form>
+        
+        <div class="register-link">
+            <p>Don't have an account? <a href="{% url 'blog:register' %}">Join the sisterhood</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

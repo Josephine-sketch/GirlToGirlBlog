@@ -1,0 +1,175 @@
+{% extends "index.html" %}
+
+<title>Girl-{% block title %}Archive{% endblock %}</title>
+
+{%block content%}
+<style>
+    .page-container {
+        background: linear-gradient(135deg, #fff5f7 0%, #ffeef2 50%, #ffe6eb 100%);
+        min-height: 100vh;
+        margin-top:-25px;
+        padding: 2rem 0;
+    }
+    
+    .welcome-header {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(255, 107, 157, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .welcome-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 100%;
+        background: linear-gradient(to bottom, #ff6b9d, #ffb6c1);
+    }
+    
+    .flip-card {
+        perspective: 1000px;
+        margin-bottom: 30px;
+        height: 300px;
+    }
+    
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        border-radius: 15px; 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(10deg);
+    }
+    
+    .flip-card.active .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+    
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        background: white;
+        padding: 1.5rem;
+    }
+    
+    .flip-card-back {
+        transform: rotateY(180deg);
+        overflow-y: auto;
+    }
+    
+    /* Post card styling */
+    .post-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .post-title {
+        font-family: 'Playfair Display', serif;
+        color: #d23c77;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+    }
+    
+    .post-meta {
+        font-size: 0.85rem;
+        color: #888;
+        margin-bottom: 1rem;
+    }
+    
+    .post-excerpt {
+        flex-grow: 1;
+        color: #555;
+        line-height: 1.6;
+    }
+    
+    .post-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+        color: #888;
+    }
+    
+    .read-more-btn {
+        color: #ff6b9d;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+    
+    .read-more-btn:hover {
+        color: #d23c77;
+        transform: translateX(5px);
+    }
+    
+    
+    /* Background decorative elements */
+    .bg-dots {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(#ffb6c1 1px, transparent 1px);
+        background-size: 20px 20px;
+        opacity: 0.15;
+        z-index: -1;
+    }
+</style>
+<div class="page-container">
+    <!-- Background decoration -->
+    <div class="bg-dots"></div>
+    <div class="container" style="text-center;">
+        <h1 class="welcome-header" style="color: #ff66b2;"> Archived Posts</h1>
+        <p >
+        Think of the Archives page like your favorite hidden gems rack—except instead of vintage finds, i
+        t’s all the iconic posts you might’ve missed.
+        Early convos, real-talk moments, glow-up inspo—it’s all here, waiting for you to rediscover.
+        So grab your snack (or wine, no judgment) and let’s take a cute little trip down memory lane.</p>
+    </div>
+     {% if archived_posts %}
+        <div class="post-list">
+            <div class="row ">
+                   {% for post in archived_posts %}
+                       <div class="col-lg-4 col-md-6">
+                            <div class="flip-card text-black mb-3 ">
+                                <div class ="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <article class="post">
+                                     <h3 class="post-title"><a href="{% url 'blog:details' post.id %}" style="color:#d23c77;">{{ post.title }}</a></h3>
+                                      <p class="date">Posted on: {{ post.created|date:"F d, Y" }}</p>
+                                      <div class="content">{{ post.body|truncatewords:30 }}</div>
+                                    </article>
+                                    <a href="{% url 'blog:details' post.id %}" class="read-more-btn">
+                                        Read more <i class="fa fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            </div> 
+                        </div>  
+                
+                    {% endfor %}
+            </div>       
+        </div>
+     {% else %}
+        <p>Oops! Looks like there aren't any archived posts yet.</p>
+     {% endif %}
+    </div>  
+</div>
+
+{%endblock%}

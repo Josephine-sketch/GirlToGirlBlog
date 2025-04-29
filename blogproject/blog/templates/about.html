@@ -1,0 +1,175 @@
+{% extends "index.html" %}
+
+<title>Girl-{% block title %}About Us{% endblock %}</title>
+
+{% block content %}
+<div class="about-container" style="background-color: #ffebee; padding: 30px; min-height: 100vh; margin-top:-25px;">
+    <!-- Hero Section -->
+    <section class="about-hero text-center" style="max-width: 800px; margin: 0 auto 50px;">
+        <h2 style="color: #e91e63; font-family: 'Playfair Display', serif; font-size: 2.5rem;">Listen up, ladies! 👑</h2>
+        <p style="font-size: 1.1rem; line-height: 1.7; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(233,30,99,0.1);">
+            Welcome to <span style="color: #e91e63; font-weight: bold;">Girl-To-Girl</span>, your no-filter sanctuary. 
+            We're here to talk <span style="text-decoration: underline;">real</span> about everything from 
+            glow-ups to screw-ups. Consider this your VIP pass to a sisterhood that celebrates 
+            the full spectrum of being a woman.
+        </p>
+    </section>
+
+    <!-- Team Slideshow -->
+    <section class="team-slideshow" style="max-width: 1000px; margin: 0 auto 50px; position: relative;">
+        <h3 style="color: #c2185b; text-align: center; margin-bottom: 30px; font-size: 2rem;">Meet Your Dream Team</h3>
+        
+        <div class="slideshow-container" style="position: relative; height: 500px;">
+            <!-- Slide 1 -->
+            <div class="team-slide fade" style="display: flex; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(233,30,99,0.15); height: 100%;">
+                <div class="member-photo" style="width: 40%;">
+                    <img src="/static/assets/images/chefs4.jpg" alt="Zoe - Founder" style="width: 100%; height: 100%; object-fit: cover; object-position: top center;">
+                </div>
+                <div class="member-bio" style="width: 60%; padding: 40px; position: relative;">
+                    <div class="chat-bubble" style="background: #fce4ec; padding: 25px; border-radius: 15px; position: relative;">
+                        <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; color: #555;">
+                            "Hey queen! I'm Jay, the rebel behind GirlToGirl. Frustrated by sugar-coated 'women's content', 
+                            I built this raw, unfiltered space where we can discuss <strong>everything</strong> - from 
+                            career wins to that weird discharge nobody warns you about. Your truth is safe here. 💕"
+                        </p>
+                        <div class="bubble-tail" style="position: absolute; left: -20px; top: 40px; width: 0; height: 0; border-top: 15px solid transparent; border-right: 20px solid #fce4ec; border-bottom: 15px solid transparent;"></div>
+                    </div>
+                    <h4 style="color: #e91e63; margin-top: 30px; font-size: 1.5rem;">Jay S.</h4>
+                    <p style="color: #888; margin: 5px 0 0; font-size: 1rem;">Founder & Chief Empowerment Officer</p>
+                    <div style="position: absolute; bottom: 40px; right: 40px; display: flex;">
+                        <span class="dot active" onclick="currentSlide(1)" style="cursor: pointer; height: 15px; width: 15px; margin: 0 5px; background-color: #e91e63; border-radius: 50%; display: inline-block;"></span>
+                        <span class="dot" onclick="currentSlide(2)" style="cursor: pointer; height: 15px; width: 15px; margin: 0 5px; background-color: #f8bbd0; border-radius: 50%; display: inline-block;"></span>
+                        <span class="dot" onclick="currentSlide(3)" style="cursor: pointer; height: 15px; width: 15px; margin: 0 5px; background-color: #f8bbd0; border-radius: 50%; display: inline-block;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="team-slide fade" style="display: none; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(233,30,99,0.15); height: 100%;">
+                <div class="member-photo" style="width: 40%;">
+                    <img src="/static/assets/images/girl3.jpg" alt="Aisha - Health Editor" style="width: 100%; height: 100%; object-fit: cover; object-position: top center;">
+                </div>
+                <div class="member-bio" style="width: 60%; padding: 40px; position: relative;">
+                    <div class="chat-bubble" style="background: #fce4ec; padding: 25px; border-radius: 15px; position: relative;">
+                        <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; color: #555;">
+                            "Hiiii! I'm Faith, your body's BFF. As a certified health coach, I'm here to 
+                            demystify periods, sex, and all the 'embarrassing' stuff we <i>should</i> be talking about. 
+                            No question is TMI—ask me <strong>anything</strong>! Let's normalize women's health together. 🌿"
+                        </p>
+                        <div class="bubble-tail" style="position: absolute; left: -20px; top: 40px; width: 0; height: 0; border-top: 15px solid transparent; border-right: 20px solid #fce4ec; border-bottom: 15px solid transparent;"></div>
+                    </div>
+                    <h4 style="color: #e91e63; margin-top: 30px; font-size: 1.5rem;">Faith C.</h4>
+                    <p style="color: #888; margin: 5px 0 0; font-size: 1rem;">Health & Wellness Editor</p>
+                    <div style="position: absolute; bottom: 40px; right: 40px; display: flex;">
+                        <span class="dot" onclick="currentSlide(1)" style="cursor: pointer; height: 15px; width: 15px; margin: 0 5px; background-color: #f8bbd0; border-radius: 50%; display: inline-block;"></span>
+                        <span class="dot active" onclick="currentSlide(2)" style="cursor: pointer; height: 15px; width: 15px; margin: 0 5px; background-color: #e91e63; border-radius: 50%; display: inline-block;"></span>
+                        <span class="dot" onclick="currentSlide(3)" style="cursor: pointer; height: 15px; width: 15px; margin: 0 5px; background-color: #f8bbd0; border-radius: 50%; display: inline-block;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="team-slide fade" style="display: none; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(233,30,99,0.15); height: 100%;">
+                <div class="member-photo" style="width: 40%;">
+                    <img src="/static/assets/images/girl2.jpg" alt="Jess - Relationships" style="width: 100%; height: 100%; object-fit: cover; object-position: top center;">
+                </div>
+                <div class="member-bio" style="width: 60%; padding: 40px; position: relative;">
+                    <div class="chat-bubble" style="background: #fce4ec; padding: 25px; border-radius: 15px; position: relative;">
+                        <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; color: #555;">
+                            "OMG HEY! I'm Kayln, your relationship hype girl. Whether you're decoding his texts, 
+                            surviving dating apps, or keeping the spark alive—I've got your back with zero judgment 
+                            and plenty of memes. Remember: If he's not treating you like the queen you are, 
+                            he's just blocking your throne. 👑"
+                        </p>
+                        <div class="bubble-tail" style="position: absolute; left: -20px; top: 40px; width: 0; height: 0; border-top: 15px solid transparent; border-right: 20px solid #fce4ec; border-bottom: 15px solid transparent;"></div>
+                    </div>
+                    <h4 style="color: #e91e63; margin-top: 30px; font-size: 1.5rem;">Kayln S.</h4>
+                    <p style="color: #888; margin: 5px 0 0; font-size: 1rem;">Relationships & Dating Expert</p>
+                    <div style="position: absolute; bottom: 40px; right: 40px; display: flex;">
+                        <span class="dot" onclick="currentSlide(1)" style="cursor: pointer; height: 15px; width: 15px; margin: 0 5px; background-color: #f8bbd0; border-radius: 50%; display: inline-block;"></span>
+                        <span class="dot" onclick="currentSlide(2)" style="cursor: pointer; height: 15px; width: 15px; margin: 0 5px; background-color: #f8bbd0; border-radius: 50%; display: inline-block;"></span>
+                        <span class="dot active" onclick="currentSlide(3)" style="cursor: pointer; height: 15px; width: 15px; margin: 0 5px; background-color: #e91e63; border-radius: 50%; display: inline-block;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-statement" style="background: white; max-width: 800px; margin: 50px auto; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 5px 20px rgba(233,30,99,0.1);">
+        <h3 style="color: #c2185b; margin-bottom: 20px; font-size: 1.8rem;">Our Why</h3>
+        <p style="font-size: 1.1rem; line-height: 1.7; color: #555;">
+            Because every woman deserves a space where she can be <strong>unapologetically herself</strong>—no filters, 
+            no facades, just real talk and radical support. This is more than a blog; it's a movement. 
+        </p>
+        <div style="font-size: 2rem; margin-top: 20px;">💖</div>
+    </section>
+</div>
+
+<!-- Slideshow Script -->
+<script>
+let slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("team-slide");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {slideIndex = 1}    
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].style.backgroundColor = "#f8bbd0";
+    }
+    slides[slideIndex-1].style.display = "flex";  
+    dots[slideIndex-1].style.backgroundColor = "#e91e63";
+}
+
+// Auto-rotate every 5 seconds
+setInterval(() => {
+    plusSlides(1);
+}, 5000);
+</script>
+
+<style>
+    /* Animation for photo hover */
+    .member-photo img {
+        transition: transform 0.7s ease;
+    }
+    .member-photo:hover img {
+        transform: scale(1.03);
+    }
+    .fade {
+        animation-name: fade;
+        animation-duration: 90s;
+    }
+    @keyframes fade {
+        0%, 100% { opacity: 1; } /* Always fully visible */
+    }
+</style>
+{% endblock %}
+{% comment %} {% extends "index.html" %}
+
+<title>Girl-{% block title %}About{% endblock %}</title>
+
+{%block content%}
+<h2>Listen up, ladies! 👑</h2>
+    <p>
+         You've officially arrived at Girl-To-Girl,
+        the no-filter zone where we celebrate the glorious, messy, and utterly powerful experience of being a woman.
+        We're diving deep into the nitty-gritty: candid advice, the juiciest gossip, and yes, we’re talking about those sensitive hygiene tips because your comfort is our priority.
+        This is a space where we build each other up, because true queens know how to fix a crown, not knock it off.
+        So, speak your truth, share your brilliance, and let's create a sisterhood that's unstoppable. Big love! 😘
+    </p>
+
+{%endblock%} {% endcomment %}

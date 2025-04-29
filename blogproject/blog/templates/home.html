@@ -1,0 +1,532 @@
+{% extends "index.html" %}
+
+{% block title %}Girl - Home{% endblock %}
+
+{% block content %}
+{% load static %}
+<style>
+    .page-container {
+        background: linear-gradient(135deg, #fff0f5 0%, #ffe6eb 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+        position: relative;
+        overflow: hidden;
+        margin-top:-25px;
+    }
+    
+    .floating-hearts {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    .heart {
+        position: absolute;
+        opacity: 0.1;
+        color: #ff66b2;
+        animation: float 15s linear infinite;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(-100vh) rotate(360deg); }
+    }
+    
+    .welcome-banner {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 25px rgba(255, 102, 178, 0.15);
+        position: relative;
+        z-index: 1;
+        border-left: 8px solid #ff66b2;
+    }
+    
+    .post-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(255, 102, 178, 0.1);
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(255, 102, 178, 0.2);
+    }
+    
+    .post-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .post-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .post-card:hover .post-image img {
+        transform: scale(1.05);
+    }
+    
+    .post-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .post-title {
+        color: #d23c77;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .post-excerpt {
+        color: #666;
+        margin-bottom: 1rem;
+        flex-grow: 1;
+    }
+    
+    .post-meta {
+        display: flex;
+        justify-content: space-between;
+        color: #ff66b2;
+        font-size: 0.9rem;
+        margin-top: auto;
+    }
+    
+    .popular-tag {
+        background: linear-gradient(45deg, #ff66b2, #ff8fab);
+        color: white;
+        padding: 3px 10px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    
+    .btn-pink {
+        background: #ff66b2;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 10px 25px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    
+    .btn-pink:hover {
+        background: #ff4785;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 102, 178, 0.4);
+    }
+    .row{
+        row-gap:35px;
+    }
+</style>
+
+<div class="page-container">
+    <!-- Floating hearts background -->
+    <div class="floating-hearts">
+        {% for i in "xxxxxxxxxx" %}
+        <div class="heart" style="
+            left: {{ forloop.counter|add:"5" }}%;
+            font-size: {{ forloop.counter|add:"10" }}px;
+            animation-delay: {{ forloop.counter }}s;
+            animation-duration: {{ forloop.counter|add:"10" }}s;
+        ">♥</div>
+        {% endfor %}
+    </div>
+    
+    <div class="container">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <h1 style="color: #ff66b2;">Hey Queen! 👑</h1>
+            <p class="lead">Welcome to your favorite girl-to-girl community where we keep it real, fun, and fabulous!</p>
+            <div class="text-center mt-4">
+                <a href="{% url 'blog:create-post' %}" class="btn-pink">
+                    <i class="fas fa-plus"></i> Create Post
+                </a>
+            </div>
+        </div>
+        
+        <!-- Posts Grid -->
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-lg-4 col-md-6">
+                <div class="post-card">
+                    <div class="post-image">
+                        {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                        {% else %}
+                        <img src="{% static 'assets/images/brats2.jpg' %}" alt="Default post image">
+                        {% endif %}
+                    </div>
+                    <div class="post-content">
+                        {% if post.likes.count > 2 %}
+                        <span class="popular-tag">Trending 🔥</span>
+                        {% endif %}
+                        <h3 class="post-title">{{ post.title }}</h3>
+                        <p class="post-excerpt">{{ post.body|truncatechars:120 }}</p>
+                        <div class="post-meta">
+                            <span><i class="fas fa-heart"></i> {{ post.likes.count }}</span>
+                            <span><i class="fas fa-comment"></i> {{ post.reviews.count }}</span>
+                            <span><i class="fas fa-clock"></i> {{ post.created|timesince }} ago</span>
+                        </div>
+                        <a href="{% url 'blog:details' post.id %}" class="btn-pink btn-sm mt-3" style="display: block; text-align: center;">
+                            Read More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Popular Posts Section -->
+        {% if popular_posts %}
+        <div class="mt-5 pt-4" style="border-top: 2px dashed #ffb6c1;">
+            <h2 class="text-center mb-4" style="color: #ff66b2;">✨ Popular This Week ✨</h2>
+            <div class="row">
+                {% for post in popular_posts %}
+                <div class="col-lg-3 col-md-6">
+                    <div class="post-card">
+                        <div class="post-image">
+                            {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="{% static 'assets/images/ghosty.png' %}" alt="Default popular post">
+                            {% endif %}
+                        </div>
+                        <div class="post-content">
+                            <span class="popular-tag">VIP Post 👑</span>
+                            <h3 class="post-title">{{ post.title|truncatechars:40 }}</h3>
+                            <div class="post-meta">
+                                <span><i class="fas fa-heart"></i> {{ post.likes.count }}</span>
+                                <span><i class="fas fa-comment"></i> {{ post.reviews.count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'blog:popular_posts' %}" class="btn-pink">
+                    See All Popular Posts <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% comment %} {% extends "index.html" %}
+
+{% block title %}Girl - Home{% endblock %}
+
+{% block content %}
+<style>
+    .page-container {
+        background: linear-gradient(135deg, #fff5f7 0%, #ffeef2 50%, #ffe6eb 100%);
+        min-height: 100vh;
+        margin-top:-25px;
+        padding: 2rem 0;
+    }
+    
+    .welcome-header {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(255, 107, 157, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .welcome-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 100%;
+        background: linear-gradient(to bottom, #ff6b9d, #ffb6c1);
+    }
+    
+    .create-post-btn {
+        background: #ff6b9d;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 25px;
+        font-weight: 600;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+    }
+    
+    .create-post-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 20px rgba(255, 107, 157, 0.4);
+        background: #ff4785;
+    }
+    
+    /* Flip card styling */
+    .flip-card {
+        perspective: 1000px;
+        margin-bottom: 30px;
+        height: 300px;
+    }
+    
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(10deg);
+    }
+    
+    .flip-card.active .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+    
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        background: white;
+        padding: 1.5rem;
+    }
+    
+    .flip-card-back {
+        transform: rotateY(180deg);
+        overflow-y: auto;
+    }
+    
+    /* Post card styling */
+    .post-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .post-title {
+        font-family: 'Playfair Display', serif;
+        color: #d23c77;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+    }
+    
+    .post-meta {
+        font-size: 0.85rem;
+        color: #888;
+        margin-bottom: 1rem;
+    }
+    
+    .post-excerpt {
+        flex-grow: 1;
+        color: #555;
+        line-height: 1.6;
+    }
+    
+    .post-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+        color: #888;
+    }
+    
+    .read-more-btn {
+        color: #ff6b9d;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+    
+    .read-more-btn:hover {
+        color: #d23c77;
+        transform: translateX(5px);
+    }
+    
+    /* Popular posts section */
+    .popular-section {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px dashed #ffb6c1;
+    }
+    
+    .popular-badge {
+        background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+        color: white;
+        font-size: 0.8rem;
+        padding: 3px 10px;
+        border-radius: 50px;
+        margin-left: 10px;
+    }
+    
+    /* Background decorative elements */
+    .bg-dots {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(#ffb6c1 1px, transparent 1px);
+        background-size: 20px 20px;
+        opacity: 0.15;
+        z-index: -1;
+    }
+</style>
+
+<div class="page-container">
+    <!-- Background decoration -->
+    <div class="bg-dots"></div>
+    
+    <div class="container">
+        <!-- Welcome section -->
+        <div class="welcome-header">
+            <h1 style="color: #d23c77;">Welcome, {{request.user}} 👑</h1>
+            <p class="lead">Hey Queen! ✨ Welcome to your digital sanctuary where we spill the tea, share the real talk, and lift each other up.</p>
+            <p>Think of it as your virtual slumber party, but with extra sass and wisdom. We're talking everything from killer hygiene hacks to navigating the wild world of lady gossip.</p>
+            
+            <div class="text-center mt-4">
+                <a href="{% url 'blog:create-post'%}" class="create-post-btn">
+                    Create Post &nbsp; <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Posts grid -->
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-md-4">
+                <div class="flip-card" id="card-{{ post.id }}">
+                    <div class="flip-card-inner">
+                        <!-- Front of card -->
+                        <div class="flip-card-front">
+                            <div class="post-card">
+                                <h3 class="post-title">{{post.title|truncatechars:50}}</h3>
+                                <div class="post-meta">
+                                    Posted {{post.created|timesince}} ago
+                                </div>
+                                <p class="post-excerpt">{{post.body|truncatechars:150}}</p>
+                                <div class="post-stats">
+                                    <span><i class="fa fa-heart text-danger"></i> {{ post.likes.count }}</span>
+                                    <span><i class="fa fa-comment"></i> {{ post.reviews.count }}</span>
+                                </div>
+                                <a href="{% url 'blog:details' post.id %}" class="read-more-btn">
+                                    Read more <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Back of card (hidden until flip) -->
+                        <div class="flip-card-back">
+                            <div class="post-card">
+                                <h3 class="post-title">{{post.title}}</h3>
+                                <div class="post-meta">
+                                    Posted by {{post.author}} • {{post.created|timesince}} ago
+                                </div>
+                                <p class="post-excerpt">{{post.body|truncatewords:50}}</p>
+                                <div class="text-center mt-3">
+                                    <a href="{% url 'blog:details' post.id %}" class="create-post-btn" style="padding: 8px 20px; font-size: 0.9rem;">
+                                        Continue Reading <i class="fa fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Popular Posts Section -->
+        {% if popular_posts %}
+        <div class="popular-section">
+            <h3 style="color: #d23c77;">🔥 Popular Posts <span class="popular-badge">Trending</span></h3>
+            <div class="row">
+                {% for post in popular_posts %}
+                <div class="col-md-4">
+                    <div class="flip-card">
+                        <div class="flip-card-inner" style="border: 2px solid #ff6b9d;">
+                            <div class="flip-card-front">
+                                <div class="post-card">
+                                    <h3 class="post-title">{{post.title|truncatechars:50}}</h3>
+                                    <div class="post-meta">
+                                        <span class="badge bg-pink">Popular</span> • {{post.created|timesince}} ago
+                                    </div>
+                                    <p class="post-excerpt">{{post.body|truncatechars:150}}</p>
+                                    <div class="post-stats">
+                                        <span><i class="fa fa-heart text-danger"></i> {{ post.likes.count }}</span>
+                                        <span><i class="fa fa-comment"></i> {{ post.reviews.count }}</span>
+                                    </div>
+                                    <a href="{% url 'blog:details' post.id %}" class="read-more-btn">
+                                        Read more <i class="fa fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="post-card">
+                                    <h3 class="post-title">{{post.title}}</h3>
+                                    <div class="post-meta">
+                                        <span class="badge bg-pink">Popular</span> • {{post.created|date:"M d, Y"}}
+                                    </div>
+                                    <p class="post-excerpt">{{post.body|truncatewords:50}}</p>
+                                    <div class="text-center mt-3">
+                                        <a href="{% url 'blog:details' post.id %}" class="create-post-btn" style="padding: 8px 20px; font-size: 0.9rem;">
+                                            Continue Reading <i class="fa fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'blog:popular_posts' %}" class="btn btn-outline-pink">
+                    View All Popular Posts <i class="fa fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    // Add click event to flip cards when "Read more" is clicked
+    document.querySelectorAll('.read-more-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const cardId = this.closest('.flip-card').id;
+            document.getElementById(cardId).classList.add('active');
+            
+            // Navigate to details page after flip animation
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 600);
+        });
+    });
+</script>
+{% endblock %} {% endcomment %}

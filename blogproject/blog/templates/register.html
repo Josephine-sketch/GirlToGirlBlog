@@ -1,0 +1,238 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .login-container {
+        background: linear-gradient(135deg, #fff0f6 0%, #ffd6e7 50%, #ffc0cb 100%);
+        min-height: calc(100vh - 56px);
+        display: flex;
+        margin-top:-25px;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        
+    }
+    
+    .login-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(255, 107, 157, 0.2);
+        width: 100%;
+        max-width: 500px;
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .login-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(90deg, #ff6b9d, #ffb6c1);
+    }
+    
+    .login-title {
+        font-family: 'Playfair Display', serif;
+        color: #d23c77;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 2.2rem;
+    }
+    
+    /* Form elements with identical styling */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #eee; /* Same faint border */
+        border-radius: 10px; /* Same rounded corners */
+        transition: all 0.3s;
+        font-size: 1rem;
+        background: #fff;
+    }
+    
+    .form-control:focus {
+        border-color: #ff6b9d;
+        box-shadow: 0 0 0 0.25rem rgba(255, 107, 157, 0.25);
+        outline: none;
+    }
+    
+    /* Button identical to login */
+    .btn-primary {
+        background-color: #ff6b9d;
+        border: none;
+        color: white;
+        padding: 12px;
+        width: 100%;
+        font-size: 1.1rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s;
+        margin-top: 1rem;
+    }
+    
+    .btn-primary:hover {
+        background-color: #ff4785;
+        transform: translateY(-3px);
+        box-shadow: 0 7px 15px rgba(255, 107, 157, 0.4);
+    }
+    
+    /* Link styling */
+    .auth-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+    }
+    
+    .auth-link a {
+        color: #ff6b9d;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+    
+    .auth-link a:hover {
+        color: #d23c77;
+        text-decoration: underline;
+    }
+    
+    /* Heart decorations (same as login) */
+    .heart-decoration {
+        position: absolute;
+        opacity: 0.1;
+        z-index: 0;
+    }
+    
+    .heart-1 {
+        top: -30px;
+        right: -30px;
+        font-size: 120px;
+        color: #ff6b9d;
+    }
+    
+    .heart-2 {
+        bottom: -40px;
+        left: -40px;
+        font-size: 150px;
+        color: #ffb6c1;
+        transform: rotate(30deg);
+    }
+    
+    /* Error messages */
+    .errorlist {
+        color: #ff3860;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        padding-left: 0;
+        list-style: none;
+    }
+    
+    /* Input icons */
+    .input-icon {
+        position: relative;
+    }
+    
+    .input-icon i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+    }
+    
+    .input-icon input {
+        padding-left: 45px !important;
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <!-- Same heart decorations -->
+        <i class="fas fa-heart heart-decoration heart-1"></i>
+        <i class="fas fa-heart heart-decoration heart-2"></i>
+        
+        <h1 class="login-title">Join the Sisterhood 👑</h1>
+        
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            
+            <!-- Username Field -->
+            <div class="form-group input-icon">
+                <div class="input-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" 
+                           name="username" 
+                           class="form-control" 
+                           placeholder="Username"
+                           required
+                           id="id_username">
+                </div>
+                {% if form.username.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.username.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <!-- Password1 Field -->
+            <div class="form-group input-icon">
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" 
+                           name="password1" 
+                           class="form-control" 
+                           placeholder="Password"
+                           required
+                           id="id_password1">
+                </div>
+                {% if form.password1.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.password1.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <!-- Password2 Field -->
+            <div class="form-group input-icon">
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" 
+                           name="password2" 
+                           class="form-control" 
+                           placeholder="Confirm Password"
+                           required
+                           id="id_password2">
+                </div>
+                {% if form.password2.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.password2.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn-primary">
+                Create Account <i class="fas fa-user-plus ms-2"></i>
+            </button>
+        </form>
+        
+        <div class="auth-link">
+            <p>Already a member? <a href="{% url 'blog:login' %}">Sign in here</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
